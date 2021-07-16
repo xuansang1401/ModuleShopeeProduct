@@ -1,4 +1,4 @@
-package com.gpaddy.module;
+package com.gpaddy.module.main;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -7,6 +7,8 @@ import java.security.NoSuchAlgorithmException;
 
 import com.google.gson.Gson;
 
+import com.gpaddy.module.model.DataShopee;
+import com.gpaddy.module.model.Item;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -14,16 +16,16 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class NetworkRequest {
+public class NetworkRequestShopee {
 
-	public NetworkRequest() {
+	public NetworkRequestShopee() {
 
 	}
 
-	public Observable<Data> requestShopee(String url) {
-		return Observable.create(new ObservableOnSubscribe<Data>() {
+	public Observable<Item> requestShopee(String url) {
+		return Observable.create(new ObservableOnSubscribe<Item>() {
 			@Override
-			public void subscribe(ObservableEmitter<Data> arg0) throws Exception {
+			public void subscribe(ObservableEmitter<Item> arg0) throws Exception {
 				try {
 					String id= convertID(url);
 					String urlApi = "https://shopee.vn/api/v2/item/get?" + id;
@@ -43,8 +45,14 @@ public class NetworkRequest {
 
 					String body = response.body().string();
 					Gson gson = new Gson();
-					Data entity = gson.fromJson(body, Data.class);
-					arg0.onNext(entity);
+					DataShopee entity = gson.fromJson(body, DataShopee.class);
+//
+					Item item= new Item(entity.getItem().getItemid(),
+							entity.getItem().getShopId(),
+							entity.getItem().getName(),
+							entity.getItem().getImage(),
+							entity.getItem().getPrice());
+					arg0.onNext(item);
 					arg0.onComplete();
 				}catch (Exception e) {
 					System.out.println("Error: "+e);

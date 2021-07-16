@@ -1,10 +1,14 @@
-package com.gpaddy.module;
+package com.gpaddy.module.model;
 import com.google.gson.annotations.SerializedName;
 
-public class Item {
+import java.util.logging.Logger;
+
+public class ItemShopee {
     @SerializedName("itemid")
     private Long itemid;
 
+    @SerializedName("shopid")
+    private String shopId;
 
     @SerializedName("name")
     private String name;
@@ -18,6 +22,9 @@ public class Item {
 
     public Long getItemid() {
         return itemid;
+    }
+    public String getShopId() {
+        return shopId;
     }
     public String getName() {
         return name;
