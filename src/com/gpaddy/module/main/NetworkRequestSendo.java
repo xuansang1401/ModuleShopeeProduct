@@ -63,14 +63,12 @@ public class NetworkRequestSendo {
 
 
 	public String convertID(String url) {
-		String[] arr = url.split("/");
+		String[] arr0 = url.split("\\?");
+		String[] arr = arr0[0].split("/");
 		String id="";
 		for (String k: arr){
-			System.out.println("Sendo, url1: "+ k );
 			if (k.endsWith(".html")) {
-				System.out.println("Sendo, id: " + k);
 				id=k.replace(".html","");
-				System.out.println("Sendo, id1: " + id);
 			}
 		}
 

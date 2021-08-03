@@ -8,6 +8,7 @@ import io.reactivex.ObservableOnSubscribe;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 
@@ -22,9 +23,16 @@ public class NetworkRequestLazada {
         return Observable.create(new ObservableOnSubscribe<Item>() {
 			@Override
 			public void subscribe(ObservableEmitter<Item> arg0) throws Exception {
-
 				try {
-					Document document = (Document) Jsoup.connect(url).get();
+					String u= url;
+					if (u.contains("https://s.lazada.vn/")){
+						Document document = (Document) Jsoup.connect(u).get();
+						Element element = document.getElementsByTag("link").first();
+						u = element.attr("href");
+						System.out.println(url);
+					}
+
+					Document document = (Document) Jsoup.connect(u).get();
 					Elements elementScripts = document.getElementsByTag("script");
 					for (int j = 0; j < elementScripts.size(); j++) {
 						if (elementScripts.get(j).data().contains("__moduleData__")) {
@@ -46,7 +54,7 @@ public class NetworkRequestLazada {
 							Item item = new Item(id,
 									shopId.toString(),
 									name,
-									imgUrl,
+									"https:"+imgUrl,
 									price);
 							arg0.onNext(item);
 							arg0.onComplete();

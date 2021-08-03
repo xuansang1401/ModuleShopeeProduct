@@ -55,20 +55,16 @@ public class NetworkRequestTiki {
 	}
 
 	//https://tiki.vn/camera-ip-wifi-tp-pink-tapo-c200-full-hd-1080p-giam-sat-an-ninh-hang-chinh-hang-p74500335.html?spid=74500336
-
+//https://tiki.vn/mat-kinh-nu-aldo-abilithaa-p93151323.html?itm_campaign=PDP_YPD_TKA_PLA_UNK_ALL_UNK_UNK_UNK_UNK_X.29411_Y.222665_Z.1155470_CN.Kinh-mat-nu---Jul%252721&itm_medium=CPC&itm_source=tiki-ads&spid=93151324
 
 	public String convertID(String url) {
 		String[] arr = url.split("\\?");
 		String[] string  = arr[0].split("-p");
 		String itemid = arr[1];
-		System.out.println("TIKI, url: "+ itemid );
 		String id="";
 		for (String k: string){
-			System.out.println("TIKI, url1: "+ k );
 			if (k.endsWith(".html")) {
-				System.out.println("TIKI, id: " + k);
 				id=k.replace(".html","");
-				System.out.println("TIKI, id1: " + id);
 			}
 		}
 		String urlApi="https://tiki.vn/api/v2/products/"+id+"?platform=web&"+itemid;
